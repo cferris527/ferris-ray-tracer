@@ -1,10 +1,14 @@
+#include "color.h"
+#include "vec3.h"
+
 #include <iostream>
-#include <fstream>
 
 /*
     To run:
     g++ main.cpp -o example
     example > image.ppm (This writes to image.ppm vs directly to console)
+
+    Pick up at 4.2 - Sending Rays into the scene
 */
 int main() {
 
@@ -20,16 +24,10 @@ int main() {
     for (int j = 0; j < image_height; j++) {
         std::clog << "\rScanlines remaining: " << (image_height - j) << ' ' << std::flush;
         for (int i = 0; i < image_width; i++) {
-            auto r = 0;
-            auto g = double(i) / (image_width-1);
-            auto b = double(j) / (image_height-1);
-
-            int ir = int(255.999 * r);
-            int ig = int(255.999 * g);
-            int ib = int(255.999 * b);
-
-            std::cout << ir << ' ' << ig << ' ' << ib << '\n';
             
+            // = color(R,G,B)
+            auto pixel_color = color(double(i)/(image_width-1), double(j)/(image_height-1), 0);
+            write_color(std::cout, pixel_color);
         }
     }
     std::clog << "\rDone.                 \n";
