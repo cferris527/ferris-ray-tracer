@@ -9,6 +9,8 @@
     To run:
     g++ main.cpp -Wall -o example
     example > image.ppm (This writes to image.ppm vs directly to console)
+
+    // Pick up at 10 - Metal
 */
 int main() {
 
@@ -22,6 +24,7 @@ int main() {
     cam.aspect_ratio = 16.0 / 9.0;
     cam.image_width  = 400;
     cam.samples_per_pixel = 100;
+    cam.max_depth         = 50;
 
     cam.render(world);
 }
