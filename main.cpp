@@ -11,7 +11,7 @@
     g++ main.cpp -Wall -o example
     example > image.ppm (This writes to image.ppm vs directly to console)
 
-    // Pick up at 10 - Metal
+    // Pick up at 11 - Dielectrics
 */
 int main() {
 
