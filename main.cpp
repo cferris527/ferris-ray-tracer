@@ -11,7 +11,10 @@
     g++ main.cpp -Wall -o example
     example > image.ppm (This writes to image.ppm vs directly to console)
 
-    // Pick up at 11 - Dielectrics
+    "mingw32-make" to do all above
+
+    TO DO ON DESKTOP:
+    Open MSYS2 UCRT64 and run "pacman -S make" to install make
 */
 int main() {
 
@@ -60,7 +63,7 @@ int main() {
     camera cam;
 
     cam.aspect_ratio      = 16.0 / 9.0;
-    cam.image_width       = 1200;
+    cam.image_width       = 400;
     cam.samples_per_pixel = 500;
     cam.max_depth         = 50;
 
