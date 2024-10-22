@@ -5,7 +5,5 @@
     - Motion blur
 - Anti-aliasing
 - Ray-sphere intersections
-
 - Specular, diffuse, and dielectric materials
-
-Currently at 3.10
+- Bounding volume hierarchy
