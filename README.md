@@ -2,6 +2,7 @@
 
 - Configurable, positionable camera
     - Defocus blur
+    - Motion blur
 - Anti-aliasing
 - Ray-sphere intersections
 

@@ -12,12 +12,10 @@
     example > image.ppm (This writes to image.ppm vs directly to console)
 
     "mingw32-make" to do all above
-
-    TO DO ON DESKTOP:
-    Open MSYS2 UCRT64 and run "pacman -S make" to install make
 */
 int main() {
 
+    //World
     hittable_list world;
 
     auto ground_material = make_shared<lambertian>(color(0.5, 0.5, 0.5));
@@ -35,7 +33,8 @@ int main() {
                     // diffuse
                     auto albedo = color::random() * color::random();
                     sphere_material = make_shared<lambertian>(albedo);
-                    world.add(make_shared<sphere>(center, 0.2, sphere_material));
+                    auto center2 = center + vec3(0, random_double(0,.5), 0);
+                    world.add(make_shared<sphere>(center, center2, 0.2, sphere_material));
                 } else if (choose_mat < 0.95) {
                     // metal
                     auto albedo = color::random(0.5, 1);
@@ -60,15 +59,16 @@ int main() {
     auto material3 = make_shared<metal>(color(0.7, 0.6, 0.5), 0.0);
     world.add(make_shared<sphere>(point3(4, 1, 0), 1.0, material3));
 
+    // Camera
     camera cam;
 
     cam.aspect_ratio      = 16.0 / 9.0;
     cam.image_width       = 400;
-    cam.samples_per_pixel = 500;
+    cam.samples_per_pixel = 100;
     cam.max_depth         = 50;
 
     cam.vfov     = 20;
-    cam.lookfrom = point3(13,2,3);
+    cam.lookfrom = point3(13,2,3); //13, 2, 3
     cam.lookat   = point3(0,0,0);
     cam.vup      = vec3(0,1,0);
 
