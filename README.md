@@ -7,3 +7,5 @@
 - Ray-sphere intersections
 
 - Specular, diffuse, and dielectric materials
+
+Currently at 3.10

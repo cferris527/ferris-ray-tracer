@@ -1,6 +1,8 @@
 #ifndef HITTABLE_H
 #define HITTABLE_H
 
+#include "aabb.h"
+
 class material;
 
 class hit_record {
@@ -20,11 +22,16 @@ class hit_record {
     }
 };
 
+/**
+ * Object that can be hit by a ray.
+ */
 class hittable {
   public:
     virtual ~hittable() = default;
 
     virtual bool hit(const ray& r, interval ray_t, hit_record& rec) const = 0;
+
+    virtual aabb bounding_box() const = 0;
 };
 
 #endif
