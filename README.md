@@ -12,3 +12,4 @@ Additional features:
 - Motion blur
 - Bounding volume hierarchy
 - Perlin noise
+- Quads
