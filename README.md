@@ -6,6 +6,7 @@ Required features:
 - Ability to load textures from images
 - Ray-sphere intersections
 - Specular, diffuse, and dielectric materials
+- Emissive materials (lights)
 
 Additional features:
 - Defocus blur/depth of field
