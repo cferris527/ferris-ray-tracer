@@ -14,6 +14,8 @@ Additional features:
 - Bounding volume hierarchy
 - Perlin noise [10 pts]
 - Quads [10 pts]
+- Object instancing [10 pts]
+- Volume rendering (smoke, clouds, etc) [10 pts]
 
 Features that must be implemented:
 - Ray-triangle intersections
@@ -23,4 +25,4 @@ Features that must be implemented:
 
 Points to earn a C- : 25
 Points to earn an A : 115
-Current points : 40
+Current points : 60
