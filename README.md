@@ -16,6 +16,7 @@ Additional features:
 - Quads [10 pts]
 - Object instancing [10 pts]
 - Volume rendering (smoke, clouds, etc) [10 pts]
+- Importance Sampling [15 pts]
 
 Features that must be implemented:
 - Ray-triangle intersections
@@ -25,4 +26,4 @@ Features that must be implemented:
 
 Points to earn a C- : 25
 Points to earn an A : 115
-Current points : 60
+Current points : 75
