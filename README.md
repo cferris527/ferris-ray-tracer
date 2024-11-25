@@ -5,6 +5,8 @@ Required features:
 - Anti-aliasing
 - Ability to load textures from images
 - Ray-sphere intersections
+- Ray-triangle intersections
+- Textured spheres and triangles
 - Specular, diffuse, and dielectric materials
 - Emissive materials (lights)
 
@@ -19,8 +21,6 @@ Additional features:
 - Importance Sampling [15 pts]
 
 Features that must be implemented:
-- Ray-triangle intersections
-- Textured spheres (done) and triangles (not done)
 - The ability to load and render triangle meshes
 - Spatial subdivision acceleration structure
 
