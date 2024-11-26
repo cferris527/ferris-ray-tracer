@@ -7,6 +7,7 @@
 #include "hittable_list.h"
 #include "material.h"
 #include "triangle.h"
+#include "triangle_mesh.h"
 #include "quad.h"
 #include "sphere.h"
 #include "texture.h"
@@ -204,7 +205,7 @@ void triangles() {
     auto back_green   = make_shared<lambertian>(color(0.2, 1.0, 0.2));
     auto right_blue   = make_shared<lambertian>(color(0.2, 0.2, 1.0));
     auto upper_orange = make_shared<lambertian>(color(1.0, 0.5, 0.0));
-    
+
     auto earth_texture = make_shared<image_texture>("earthmap.jpg");
     auto earth_surface = make_shared<lambertian>(earth_texture);
 
@@ -476,8 +477,69 @@ void cornell_box_monte_carlo() {
     cam.render(world);
 }
 
+void demo_triangle_mesh() {
+    // hittable_list world;
+
+    // // Material for the mesh
+    // auto diffuse_material = make_shared<lambertian>(color(0.8, 0.3, 0.3));
+
+    // // Load a triangle mesh from an OBJ file
+    // auto mesh = make_shared<triangle_mesh>("objects/simple_ball.obj", diffuse_material);
+    // world.add(mesh);
+
+    // // Set up the camera
+    // camera cam;
+    // cam.aspect_ratio      = 16.0 / 9.0;
+    // cam.image_width       = 400;
+    // cam.samples_per_pixel = 10;
+    // cam.max_depth         = 50;
+    // cam.background        = color(0.7, 0.8, 1.0);
+
+    // cam.vfov     = 40;
+    // cam.lookfrom = point3(0, 2, 6);
+    // cam.lookat   = point3(0, 1, 0);
+    // cam.vup      = vec3(0, 1, 0);
+
+    // cam.defocus_angle = 0;
+
+    // // Render the scene
+    // cam.render(world);
+
+    hittable_list world;
+
+    auto pertext = make_shared<noise_texture>(4);
+    world.add(make_shared<sphere>(point3(0,-1000,0), 1000, make_shared<lambertian>(pertext)));
+
+    auto diffuse_material = make_shared<lambertian>(color(0.8, 0.3, 0.3));
+    //world.add(make_shared<sphere>(point3(0,2,0), 2, make_shared<lambertian>(pertext)));
+    // Load a triangle mesh from an OBJ file
+    auto mesh = make_shared<triangle_mesh>("objects/simple_ball.obj", diffuse_material);
+    world.add(mesh);
+
+    auto difflight = make_shared<diffuse_light>(color(4,4,4));
+    world.add(make_shared<sphere>(point3(0,7,0), 2, difflight));
+    world.add(make_shared<quad>(point3(3,1,-2), vec3(2,0,0), vec3(0,2,0), difflight));
+
+    camera cam;
+
+    cam.aspect_ratio      = 16.0 / 9.0;
+    cam.image_width       = 400;
+    cam.samples_per_pixel = 100;
+    cam.max_depth         = 50;
+    cam.background        = color(0,0,0);
+
+    cam.vfov     = 20;
+    cam.lookfrom = point3(26,3,6);
+    cam.lookat   = point3(0,2,0);
+    cam.vup      = vec3(0,1,0);
+
+    cam.defocus_angle = 0;
+
+    cam.render(world);
+}
+
 int main() {
-    switch (6) {
+    switch (12) {
         case 1: bouncing_spheres();  break;
         case 2: checkered_spheres(); break;
         case 3: earth(); break;
@@ -489,6 +551,7 @@ int main() {
         case 9: cornell_smoke(); break;
         case 10: final_scene(800, 10000, 40); break;
         case 11: cornell_box_monte_carlo(); break;
+        case 12: demo_triangle_mesh(); break;
     }
 }
 
