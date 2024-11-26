@@ -478,33 +478,6 @@ void cornell_box_monte_carlo() {
 }
 
 void demo_triangle_mesh() {
-    // hittable_list world;
-
-    // // Material for the mesh
-    // auto diffuse_material = make_shared<lambertian>(color(0.8, 0.3, 0.3));
-
-    // // Load a triangle mesh from an OBJ file
-    // auto mesh = make_shared<triangle_mesh>("objects/simple_ball.obj", diffuse_material);
-    // world.add(mesh);
-
-    // // Set up the camera
-    // camera cam;
-    // cam.aspect_ratio      = 16.0 / 9.0;
-    // cam.image_width       = 400;
-    // cam.samples_per_pixel = 10;
-    // cam.max_depth         = 50;
-    // cam.background        = color(0.7, 0.8, 1.0);
-
-    // cam.vfov     = 40;
-    // cam.lookfrom = point3(0, 2, 6);
-    // cam.lookat   = point3(0, 1, 0);
-    // cam.vup      = vec3(0, 1, 0);
-
-    // cam.defocus_angle = 0;
-
-    // // Render the scene
-    // cam.render(world);
-
     hittable_list world;
 
     auto pertext = make_shared<noise_texture>(4);
@@ -513,7 +486,7 @@ void demo_triangle_mesh() {
     auto diffuse_material = make_shared<lambertian>(color(0.8, 0.3, 0.3));
     //world.add(make_shared<sphere>(point3(0,2,0), 2, make_shared<lambertian>(pertext)));
     // Load a triangle mesh from an OBJ file
-    auto mesh = make_shared<triangle_mesh>("objects/simple_ball.obj", diffuse_material);
+    auto mesh = make_shared<triangle_mesh>("objects/simple_ball.obj", diffuse_material, point3(3,3,3));
     world.add(mesh);
 
     auto difflight = make_shared<diffuse_light>(color(4,4,4));
@@ -523,7 +496,7 @@ void demo_triangle_mesh() {
     camera cam;
 
     cam.aspect_ratio      = 16.0 / 9.0;
-    cam.image_width       = 400;
+    cam.image_width       = 800;
     cam.samples_per_pixel = 100;
     cam.max_depth         = 50;
     cam.background        = color(0,0,0);

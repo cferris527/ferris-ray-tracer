@@ -6,6 +6,7 @@ Required features:
 - Ability to load textures from images
 - Ray-sphere intersections
 - Ray-triangle intersections
+- The ability to load and render triangle meshes
 - Textured spheres and triangles
 - Specular, diffuse, and dielectric materials
 - Emissive materials (lights)
@@ -21,7 +22,6 @@ Additional features:
 - Importance Sampling [15 pts]
 
 Features that must be implemented:
-- The ability to load and render triangle meshes
 - Spatial subdivision acceleration structure
 
 Points to earn a C- : 25
