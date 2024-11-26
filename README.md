@@ -10,6 +10,7 @@ Required features:
 - Textured spheres and triangles
 - Specular, diffuse, and dielectric materials
 - Emissive materials (lights)
+- Spatial subdivision acceleration structure (Bounding Volume Hierarchy)
 
 Additional features:
 - Defocus blur/depth of field [10 pts]
@@ -21,9 +22,6 @@ Additional features:
 - Volume rendering (smoke, clouds, etc) [10 pts]
 - Importance Sampling [15 pts]
 - Parallelization [10 pts]
-
-Features that must be implemented:
-- Spatial subdivision acceleration structure
 
 Points to earn a C- : 25
 Points to earn an A : 115

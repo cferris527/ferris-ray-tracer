@@ -483,10 +483,10 @@ void demo_triangle_mesh() {
     auto pertext = make_shared<noise_texture>(4);
     world.add(make_shared<sphere>(point3(0,-1000,0), 1000, make_shared<lambertian>(pertext)));
 
-    auto diffuse_material = make_shared<lambertian>(color(0.8, 0.3, 0.3));
+    auto tmesh_mat = make_shared<lambertian>(color(0.7, 0.7, 0.7));
     //world.add(make_shared<sphere>(point3(0,2,0), 2, make_shared<lambertian>(pertext)));
     // Load a triangle mesh from an OBJ file
-    auto mesh = make_shared<triangle_mesh>("objects/simple_ball.obj", diffuse_material, point3(3,3,3));
+    auto mesh = make_shared<triangle_mesh>("objects/simple_ball.obj", tmesh_mat, point3(3,3,3));
     world.add(mesh);
 
     auto difflight = make_shared<diffuse_light>(color(4,4,4));
