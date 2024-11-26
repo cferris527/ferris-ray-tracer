@@ -3,6 +3,8 @@
 
 #include "hittable.h"
 #include "material.h"
+#include <chrono>
+#include <omp.h>
 
 class camera {
   public:
@@ -20,27 +22,62 @@ class camera {
     double defocus_angle = 0;  // Variation angle of rays through each pixel
     double focus_dist = 10;    // Distance from camera lookfrom point to plane of perfect focus
 
-    void render(const hittable& world) {
-        initialize();
-        
-        std::cout << "P3\n" << image_width << ' ' << image_height << "\n255\n";
+    #include <omp.h>
+#include <random>
+#include <chrono>
+#include <iostream>
 
-        for (int j = 0; j < image_height; j++) {
-            std::clog << "\rScanlines remaining: " << (image_height - j) << ' ' << std::flush;
-            for (int i = 0; i < image_width; i++) {
-                color pixel_color(0,0,0);
-                for (int s_j = 0; s_j < sqrt_spp; s_j++) {
-                    for (int s_i = 0; s_i < sqrt_spp; s_i++) {
-                        ray r = get_ray(i, j, s_i, s_j);
-                        pixel_color += ray_color(r, max_depth, world);
-                    }
+void render(const hittable& world) {
+    initialize();
+
+    auto start = std::chrono::high_resolution_clock::now(); // Start time of render
+
+    std::cout << "P3\n" << image_width << ' ' << image_height << "\n255\n";
+
+    // Create a 2D array to store the color data for each pixel.
+    std::vector<std::vector<color>> image(image_height, std::vector<color>(image_width));
+
+    // Parallelize the pixel computation using OpenMP
+    #pragma omp parallel for schedule(dynamic, 1) num_threads(16)
+    for (int j = 0; j < image_height; j++) {
+        // Thread-local random number generator
+        thread_local std::mt19937 rng(std::random_device{}());  // Thread-local random number generator
+
+        // Loop over each pixel in the scanline
+        for (int i = 0; i < image_width; i++) {
+            color pixel_color(0, 0, 0);  // Local color for the current pixel
+
+            // Random number generation logic using the thread-local RNG
+            for (int s_j = 0; s_j < sqrt_spp; s_j++) {
+                for (int s_i = 0; s_i < sqrt_spp; s_i++) {
+                    // Pass the RNG to get_ray
+                    ray r = get_ray(i, j, s_i, s_j);  // No need for RNG here directly, since get_ray doesn't take it
+                    pixel_color += ray_color(r, max_depth, world);  // Accumulate color for this pixel
                 }
-                write_color(std::cout, pixel_samples_scale * pixel_color);
             }
+
+            image[j][i] = pixel_samples_scale * pixel_color; // Store the computed pixel color
         }
 
-        std::clog << "\rRender complete, master Ferris.                 \n";
+        // Log the remaining scanlines (this can be critical to avoid race conditions on std::clog)
+        #pragma omp critical
+        std::clog << "\rScanlines remaining: " << (image_height - j) << ' ' << std::flush;
     }
+
+    // After the parallel computation, output the image to std::cout (this part is sequential)
+    for (int j = 0; j < image_height; j++) {
+        for (int i = 0; i < image_width; i++) {
+            write_color(std::cout, image[j][i]);  // Write the computed color of each pixel
+        }
+    }
+
+    auto end = std::chrono::high_resolution_clock::now(); // End time of render
+    std::chrono::duration<double> duration = end - start;
+
+    std::clog << "\rRender complete, master Ferris.                 \n";
+    std::clog << "Render finished in " << duration.count() << " seconds\n";
+}
+
 
   private:
     int    image_height;   // Rendered image height

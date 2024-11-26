@@ -1,6 +1,6 @@
 # Compiler & flags & GIMP path to open render
 CXX = g++
-CXXFLAGS = -Wall
+CXXFLAGS = -Wall -fopenmp
 GIMP = "C:\Program Files\GIMP 2\bin\gimp-2.10.exe"
 
 # Target executable & output file

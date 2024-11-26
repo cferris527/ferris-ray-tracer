@@ -6,11 +6,11 @@
 #include "hittable.h"
 #include "hittable_list.h"
 #include "material.h"
-#include "triangle.h"
-#include "triangle_mesh.h"
 #include "quad.h"
 #include "sphere.h"
 #include "texture.h"
+#include "triangle.h"
+#include "triangle_mesh.h"
 
 /*
     To run:

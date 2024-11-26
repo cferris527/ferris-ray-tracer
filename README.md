@@ -20,10 +20,11 @@ Additional features:
 - Object instancing [10 pts]
 - Volume rendering (smoke, clouds, etc) [10 pts]
 - Importance Sampling [15 pts]
+- Parallelization [10 pts]
 
 Features that must be implemented:
 - Spatial subdivision acceleration structure
 
 Points to earn a C- : 25
 Points to earn an A : 115
-Current points : 75
+Current points : 85
