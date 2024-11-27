@@ -27,7 +27,10 @@ class camera {
 #include <chrono>
 #include <iostream>
 
-void render(const hittable& world) {
+/**
+ * Render with parallelization (multiple cores)
+ */
+void render_parallelized(const hittable& world) {
     initialize();
 
     auto start = std::chrono::high_resolution_clock::now(); // Start time of render
@@ -77,6 +80,31 @@ void render(const hittable& world) {
     std::clog << "\rRender complete, master Ferris.                 \n";
     std::clog << "Render finished in " << duration.count() << " seconds\n";
 }
+
+/**
+ * Render default (one core)
+ */
+void render(const hittable& world) {
+        initialize();
+        
+        std::cout << "P3\n" << image_width << ' ' << image_height << "\n255\n";
+
+        for (int j = 0; j < image_height; j++) {
+            std::clog << "\rScanlines remaining: " << (image_height - j) << ' ' << std::flush;
+            for (int i = 0; i < image_width; i++) {
+                color pixel_color(0,0,0);
+                for (int s_j = 0; s_j < sqrt_spp; s_j++) {
+                    for (int s_i = 0; s_i < sqrt_spp; s_i++) {
+                        ray r = get_ray(i, j, s_i, s_j);
+                        pixel_color += ray_color(r, max_depth, world);
+                    }
+                }
+                write_color(std::cout, pixel_samples_scale * pixel_color);
+            }
+        }
+
+        std::clog << "\rRender complete, master Ferris.                 \n";
+    }
 
 
   private:

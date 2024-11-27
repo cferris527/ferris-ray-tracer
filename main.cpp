@@ -206,7 +206,7 @@ void triangles() {
     auto right_blue   = make_shared<lambertian>(color(0.2, 0.2, 1.0));
     auto upper_orange = make_shared<lambertian>(color(1.0, 0.5, 0.0));
 
-    auto earth_texture = make_shared<image_texture>("earthmap.jpg");
+    auto earth_texture = make_shared<image_texture>("images/scratch_metal.jpg");
     auto earth_surface = make_shared<lambertian>(earth_texture);
 
     //Triangles
@@ -484,9 +484,14 @@ void demo_triangle_mesh() {
     world.add(make_shared<sphere>(point3(0,-1000,0), 1000, make_shared<lambertian>(pertext)));
 
     auto tmesh_mat = make_shared<lambertian>(color(0.38, 0.651, 0.98));
+    auto metal_mat   = make_shared<metal>(color(0.8, 0.8, 0.8), 0.3);
+    auto dial_mat   = make_shared<dielectric>(1.50);
+    auto metal_texture = make_shared<image_texture>("images/scratch_metal.jpg");
+    auto metal_surface = make_shared<lambertian>(metal_texture);
+
     //world.add(make_shared<sphere>(point3(0,2,0), 2, make_shared<lambertian>(pertext)));
     // Load a triangle mesh from an OBJ file
-    auto mesh = make_shared<triangle_mesh>("objects/simple_ball.obj", tmesh_mat, point3(3,3,3));
+    auto mesh = make_shared<triangle_mesh>("objects/simple_ball.obj", metal_surface, point3(3,3,3));
     world.add(mesh);
 
     auto difflight = make_shared<diffuse_light>(color(4,4,4));
@@ -508,11 +513,41 @@ void demo_triangle_mesh() {
 
     cam.defocus_angle = 0;
 
-    cam.render(world);
+    cam.render_parallelized(world);
+}
+
+void triangle_mesh_textured() {
+    hittable_list world;
+
+    auto ground = make_shared<lambertian>(color(0.6, 0.6, 0.6));
+    world.add(make_shared<sphere>(point3(0,-1000,0), 1000, ground));
+
+    auto tmesh_mat = make_shared<lambertian>(color(0.988, 0.604, 0.98));
+    auto metal_texture = make_shared<image_texture>("images/neon_marble.jpg");
+    auto metal_surface = make_shared<lambertian>(metal_texture);
+    auto mesh = make_shared<triangle_mesh>("objects/simple_ball.obj", metal_surface, point3(5,3,3));
+    world.add(mesh);
+
+    camera cam;
+
+    cam.aspect_ratio      = 16.0 / 9.0;
+    cam.image_width       = 800;
+    cam.samples_per_pixel = 100;
+    cam.max_depth         = 50;
+    cam.background        = color(0.70, 0.80, 1.00);
+
+    cam.vfov     = 20;
+    cam.lookfrom = point3(26,3,6);
+    cam.lookat   = point3(0,2,0);
+    cam.vup      = vec3(0,1,0);
+
+    cam.defocus_angle = 0;
+
+    cam.render_parallelized(world);
 }
 
 int main() {
-    switch (12) {
+    switch (13) {
         case 1: bouncing_spheres();  break;
         case 2: checkered_spheres(); break;
         case 3: earth(); break;
@@ -525,6 +560,7 @@ int main() {
         case 10: final_scene(800, 10000, 40); break;
         case 11: cornell_box_monte_carlo(); break;
         case 12: demo_triangle_mesh(); break;
+        case 13: triangle_mesh_textured(); break;
     }
 }
 
