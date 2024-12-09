@@ -13,11 +13,14 @@
 #include "triangle_mesh.h"
 
 /*
-    To run:
-    g++ main.cpp -Wall -o example
-    example > image.ppm (This writes to image.ppm vs directly to console)
+    To run without makefile:
+    "g++ main.cpp -Wall -o example"
+    "example > image.ppm" (This writes values to image.ppm instead of directly to console)
 
-    "mingw32-make" to do all above
+    To run with makefile:
+    "mingw32-make" to run makefile
+    IMPORTANT: This makefile will open the image in GIMP (v 2.10). Makefile will need to
+    be changed if you don't have GIMP installed or in the correct path.
 */
 
 void bouncing_spheres() {
@@ -489,7 +492,7 @@ void demo_triangle_mesh() {
     auto metal_texture = make_shared<image_texture>("images/scratch_metal.jpg");
     auto metal_surface = make_shared<lambertian>(metal_texture);
 
-    //world.add(make_shared<sphere>(point3(0,2,0), 2, make_shared<lambertian>(pertext)));
+    // world.add(make_shared<sphere>(point3(0,2,0), 2, make_shared<lambertian>(pertext)));
     // Load a triangle mesh from an OBJ file
     auto mesh = make_shared<triangle_mesh>("objects/simple_ball.obj", metal_surface, point3(3,3,3));
     world.add(mesh);

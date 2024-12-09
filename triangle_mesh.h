@@ -2,7 +2,7 @@
 #define TRIANGLE_MESH_H
 
 #include <vector>
-#include <array> // Fix 1: Include <array>
+#include <array> 
 #include <fstream>
 #include <sstream>
 #include "triangle.h"
@@ -18,7 +18,7 @@ class triangle_mesh : public hittable {
     }
 
     bool hit(const ray& r, interval ray_t, hit_record& rec) const override {
-        return triangles.hit(r, ray_t, rec); // Delegate to hittable_list
+        return triangles.hit(r, ray_t, rec); 
     }
 
     aabb bounding_box() const override {
@@ -26,7 +26,7 @@ class triangle_mesh : public hittable {
     }
 
   private:
-    hittable_list triangles; // Collection of all triangles in the mesh
+    hittable_list triangles; 
     shared_ptr<material> mat;
     aabb bbox;
     point3 center;
@@ -45,13 +45,11 @@ class triangle_mesh : public hittable {
         std::string prefix;
         iss >> prefix;
 
-        if (prefix == "v") { // Vertex definition
+        if (prefix == "v") { 
             double x, y, z;
             iss >> x >> y >> z;
-
-            // Apply the center offset
             vertices.emplace_back(x + center.x(), y + center.y(), z + center.z());
-        } else if (prefix == "f") { // Face definition
+        } else if (prefix == "f") { 
             std::array<int, 3> indices;
 
             for (int i = 0; i < 3; ++i) {
@@ -61,11 +59,10 @@ class triangle_mesh : public hittable {
                 std::istringstream vertex_ss(vertex_str);
                 int vertex_index;
                 vertex_ss >> vertex_index;
-                vertex_index--; // OBJ files are 1-indexed
+                vertex_index--;
                 indices[i] = vertex_index;
             }
 
-            // Validate and create the triangle
             const auto& v0 = vertices[indices[0]];
             const auto& v1 = vertices[indices[1]];
             const auto& v2 = vertices[indices[2]];
@@ -76,7 +73,7 @@ class triangle_mesh : public hittable {
 }
 
     void set_bounding_box() {
-        bbox = triangles.bounding_box(); // Fix 3: Use hittable_list's bounding_box method
+        bbox = triangles.bounding_box();
     }
 };
 
