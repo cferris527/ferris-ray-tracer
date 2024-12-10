@@ -1,5 +1,7 @@
 # Features currently included
 
+Wondering how to run code? Refer to comments in main.cpp
+
 All required features are implemented, with an additional 85 points worth of extra features and importance sampling.
 
 Required features:
