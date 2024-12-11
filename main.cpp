@@ -519,58 +519,58 @@ void demo_triangle_mesh() {
     cam.render_parallelized(world);
 }
 
-void triangle_mesh_textured() {
+void final_render() {
     hittable_list world;
 
     // floor
     auto pertext = make_shared<noise_texture>(4);
     world.add(make_shared<sphere>(point3(0,-1000,0), 1000, make_shared<lambertian>(pertext)));
 
-    auto tmesh_mat = make_shared<lambertian>(color(0.988, 0.604, 0.98));
-    // auto metal_texture = make_shared<image_texture>("images/neon_marble.jpg");
-    // auto metal_surface = make_shared<lambertian>(metal_texture);
-    // auto mesh = make_shared<triangle_mesh>("objects/simple_ball.obj", metal_surface, point3(7,3,4));
-    // world.add(mesh);
+    // materials for humans
+    auto orange_mat = make_shared<lambertian>(color(1.0, 0.471, 0.0));
+    auto gray_mat = make_shared<lambertian>(color(0.459, 0.459, 0.459));
+    auto mattewhite_mat = make_shared<lambertian>(color(0.91, 0.91, 0.91));
+    auto yellow_mat = make_shared<lambertian>(color(0.886, 0.91, 0.043));
 
-    // humans
-    auto mesh0 = make_shared<triangle_mesh>("objects/human_small.obj", tmesh_mat, point3(17,1,1));
+    auto grass_mat = make_shared<image_texture>("images/grassy.jpg");
+    auto grass_surface = make_shared<lambertian>(grass_mat);
+
+    auto neon_mat = make_shared<image_texture>("images/neon_marble.jpg");
+    auto neon_surface = make_shared<lambertian>(neon_mat);
+
+    auto scratchmetal_mat = make_shared<image_texture>("images/scratch_metal.jpg");
+    auto metal_surface = make_shared<lambertian>(scratchmetal_mat);
+
+    // human meshes
+    auto mesh0 = make_shared<triangle_mesh>("objects/human_small.obj", grass_surface, point3(17,1,1));
     world.add(mesh0);
-    auto mesh1 = make_shared<triangle_mesh>("objects/human_small.obj", tmesh_mat, point3(13,1,1));
+    auto mesh1 = make_shared<triangle_mesh>("objects/human_small.obj", orange_mat, point3(13,1,1));
     world.add(mesh1);
-    auto mesh2 = make_shared<triangle_mesh>("objects/human_small.obj", tmesh_mat, point3(9,1,1));
+    auto mesh2 = make_shared<triangle_mesh>("objects/human_small.obj", neon_surface, point3(9,1,1));
     world.add(mesh2);
-    auto mesh3 = make_shared<triangle_mesh>("objects/human_small.obj", tmesh_mat, point3(5,1,1));
+    auto mesh3 = make_shared<triangle_mesh>("objects/human_small.obj", gray_mat, point3(5,1,1));
     world.add(mesh3);
-    auto mesh4 = make_shared<triangle_mesh>("objects/human_small.obj", tmesh_mat, point3(1,1,1));
+    auto mesh4 = make_shared<triangle_mesh>("objects/human_small.obj", metal_surface, point3(1,1,1));
     world.add(mesh4);
-    auto mesh5 = make_shared<triangle_mesh>("objects/human_small.obj", tmesh_mat, point3(-3,1,1));
+    auto mesh5 = make_shared<triangle_mesh>("objects/human_small.obj", mattewhite_mat, point3(-3,1,1));
     world.add(mesh5);
-    auto mesh6 = make_shared<triangle_mesh>("objects/human_small.obj", tmesh_mat, point3(-7,1,1));
+    auto mesh6 = make_shared<triangle_mesh>("objects/human_small.obj", yellow_mat, point3(-7,1,1));
     world.add(mesh6);
-
-
-   
-    auto difflight = make_shared<diffuse_light>(color(20,20,20)); // color(x,x,x) here is light intensity
-                                                                  // also note this is right behind the camera to objects are lit up
-    world.add(make_shared<sphere>(point3(31,3,7), 2, difflight));
-
-    // (,UP,LEFT-FORWARD)
 
     camera cam;
 
     cam.aspect_ratio      = 16.0 / 9.0;
-    cam.image_width       = 400; // 800 for fast
-    cam.samples_per_pixel = 100; // 100 for fast
+    cam.image_width       = 1920;
+    cam.samples_per_pixel = 100;
     cam.max_depth         = 50;
     cam.background        = color(0.70, 0.80, 1.00);
 
     cam.vfov     = 20;
     cam.lookfrom = point3(23,3,6); // originally 23 3 6
-    cam.lookat   = point3(0,3,-4); // " 0 2 0
+    cam.lookat   = point3(0,4,-4.5); // " 0 2 0
     cam.vup      = vec3(0,1,0);
-
     cam.defocus_angle = 0;
-
+    
     cam.render_parallelized(world);
 }
 
@@ -588,7 +588,7 @@ int main() {
         case 10: final_scene(800, 10000, 40); break;
         case 11: cornell_box_monte_carlo(); break;
         case 12: demo_triangle_mesh(); break;
-        case 13: triangle_mesh_textured(); break;
+        case 13: final_render(); break;
     }
 }
 
